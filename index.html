@@ -20,7 +20,7 @@
             margin: 0;
         }
 
-        div.btnbg {
+        div.btnbg,.letter {
             position: fixed;
             left: 50%;
             top: 50%;
@@ -30,8 +30,15 @@
             text-shadow: 1px 1px 2px black , 1px 1px 6px rgba(255, 255, 255, 0.836);
             letter-spacing: 2px;
         }
+        .letter{
+            top: 60%;
+        }
         .num{
             font-size: 20px;
+        }
+        .show{display: block;}
+        .hid{
+            display: none;
         }
     </style>
 </HEAD>
@@ -42,8 +49,13 @@
         我们已经相恋了 <span class="num">520</span> 天 <span class="num">520</span> 小时 <span class="num">520</span> 分 <span
             class="num">520</span> 秒
     </div>
+    <div class="letter hid">
+        我 刘兴荣 一定在2024-10-25取 陈思雨 为妻！以此为据！
+    </div>
     <script>
         let numDoms = document.querySelectorAll('.num')
+        let btnbg = document.querySelector('.btnbg')
+        let letter = document.querySelector('.letter')
         let timeObj = {}
         setInterval(() => {
             timeObj = computedTime()
@@ -52,6 +64,15 @@
             numDoms[2].innerText  =  timeObj.m
             numDoms[3].innerText  =  timeObj.s
         }, 1000);
+
+        btnbg.ondblclick = ()=>{
+         let p1 =  prompt('你是谁?')
+         let p2 =  prompt('你要嫁给谁？')
+         if(p1==='陈思雨' && p2==='刘兴荣'){
+            letter.classList.remove('hid')
+            letter.classList.add('show')
+         }
+        }
 
         function computedTime() {
             let timeNum = new Date()-new Date("2022-10-25")

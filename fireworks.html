@@ -30,7 +30,7 @@
 
 <body onselectstart="return false">
 
-    <div style="height:100vh;overflow:hidden;">
+    <div style="height:1800px;overflow:hidden;">
 
         <canvas id='cas' style="background-color:rgba(0,5,24,1);">浏览器不支持canvas</canvas>
         <!-- <div class="city"><img src="img/city.png" alt="" /></div> -->
@@ -39,10 +39,8 @@
         <div style="display:none">
             <div class="shape">雨宝，荣宝永远爱你！</div>
             <div class="shape">雨宝，新年快乐！</div>
-            <!-- <div class="shape">合家幸福</div>
-        <div class="shape">万事如意</div>
-        <div class="shape">心想事成</div>
-        <div class="shape">财源广进</div> -->
+            <div class="shape">雨宝，万事如意！</div>
+            <div class="shape">雨宝，心想事成！</div>
         </div>
 
     </div>
@@ -53,7 +51,9 @@
         var octx = ocas.getContext("2d");
         var ctx = canvas.getContext("2d");
         ocas.width = canvas.width = window.innerWidth;
-        ocas.height = canvas.height = 1500;
+        // ocas.height = canvas.height = 1500;
+        ocas.height = canvas.height = window.innerHeight;
+        console.log(window.screen.height,'window.innerHeight');
         var bigbooms = [];
 
         window.onload = function () {

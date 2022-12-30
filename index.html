@@ -47,14 +47,15 @@
         .hid {
             display: none;
         }
-        .go{
+
+        .go {
             position: fixed;
             top: 95%;
             left: 95%;
-            color:rgba(255, 255, 255, 0.548);
+            color: rgba(255, 255, 255, 0.548);
             text-decoration: none;
             font-size: 12px;
-            
+
         }
     </style>
 </HEAD>
@@ -65,11 +66,34 @@
         我们已经相恋了 <span class="num">520</span> 天 <span class="num">520</span> 小时 <span class="num">520</span> 分 <span
             class="num">520</span> 秒
     </div>
-    <a class="go" href="./fireworks.html">去看烟花</a>
+    <!-- <a class="go" href="./fireworks.html">去看烟花</a> -->
     <div class="letter hid">
         我 刘兴荣 一定在2024-10-25娶 陈思雨 为妻！立此为据！
     </div>
     <script>
+        let timer = null
+        let startTime = ''
+        let endTime = ''
+        const label = document.querySelector('.label')
+        const deleteBtn = document.querySelector('.delete_btn')
+
+        document.body.addEventListener('touchstart', function () {
+            startTime = +new Date()
+            timer = setTimeout(function () {
+                location.href = './fireworks.html'
+            }, 700)
+        })
+
+        document.body.addEventListener('touchend', function () {
+            endTime = +new Date()
+            clearTimeout(timer)
+            // if (endTime - startTime < 700) {
+            //     // 处理点击事件
+            //     label.classList.add('selected')
+            // }
+        })
+
+
         let numDoms = document.querySelectorAll('.num')
         let btnbg = document.querySelector('.btnbg')
         let letter = document.querySelector('.letter')
@@ -117,7 +141,7 @@
 
         }
     </script>
-    
+
     <!-- sakura shader -->
     <script id="sakura_point_vsh" type="x-shader/x_vertex">
         uniform mat4 uProjection;

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的故事</title>
+    <script src="./stories.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family:'仿宋'
+        }
+
+        .wrapper {
+            /* background: url('./img/xiaowangzi.jpg');
+            filter: blur(6px); */
+            position: relative;
+        }
+
+        .wrapper>div {
+            width: 100vw;
+            height: 100vh;
+            font-size: 20px;
+            position: absolute;
+        }
+
+        .wrapper>.bg {
+            background: url('./img/bgblue.webp');
+            filter: blur(6px);
+        }
+
+        .content {
+            color: rgba(0, 0, 0, 0.932);
+            padding: 2vw;
+        }
+
+        .content .num {
+            height: 4vh;
+            text-align: center;
+            font-size: 3vw;
+            color: rgb(243, 102, 125);
+        }
+
+        .storyWrapper {
+            position: relative;
+        }
+
+        .storyItem {
+            position: absolute;
+            width: 90vw;
+            height: 94vh;
+            overflow: scroll;
+            margin-left: 3vw;
+            display: none;
+        }
+
+        .storyTitle {
+            padding: 2vw 0;
+            color:rgb(49, 176, 226) ;
+        }
+
+        .storySentence {
+            text-decoration: underline;
+            text-decoration-color: skyblue;
+            text-underline-offset: 2vw;
+            padding: 6vw 0 1vw 0;
+            /* border-bottom: 1px pink solid; */
+            font-size: 4vw;
+            /* text-indent: 2em; */
+        }
+
+
+        .top {
+            z-index: 6;
+            display: block;
+            opacity: 1;
+        }
+
+        .bottom {
+            z-index: 0;
+            display: none;
+        }
+
+        .face {
+            margin-top: 60vw;
+            text-align: center;
+            color: rgb(67, 190, 238);
+            font-size: 10vw;
+            /* width: 100%;
+            height: 100%;
+            background: url('./img/xiaowangzi.jpg'); */
+        }
+        .names{
+            margin-top: 10vw;
+            text-align: center;
+            color: rgba(67, 190, 238, 0.692);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="bg"></div>
+        <div class="content">
+            <div class="num"> <span class="numl">520</span> / <span class="numr">1314</span> </div>
+            <div class="storyWrapper">
+                <div class="storyItem top">
+                    <!-- <div class="storyTitle">标题</div>
+                    <div class="storySentence">111111111111111</div>
+                    <div class="storySentence">111111111111111</div> -->
+                    <div class="face">我们的故事</div>
+                    <div class="names">LXR  &&  CSY</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let storyWrapper = document.querySelector('.storyWrapper')
+        let numl = document.querySelector('.numl')
+        let numr = document.querySelector('.numr')
+        let sLen = stories.length
+        let index = 0
+        handleHtmlOuter()
+        let sDoms = document.querySelectorAll('.storyItem')
+        swipe(storyWrapper, {
+            swipeLeft: function () {
+                clearStyle()
+                index++
+                if (index > sLen) {
+                    index = sLen
+                }
+                sDoms[index].classList.add('top')
+                numl.innerHTML =  index
+                numr.innerHTML =  sLen
+            },
+            swipeRight: function () {
+                clearStyle()
+                index--;
+                if (index < 0) {
+                    index = 0
+                }
+
+                sDoms[index].classList.add('top')
+                numl.innerHTML =  index
+                numr.innerHTML =  sLen
+            },
+            swipeDown: function () {},
+            swipeUp: function () {},
+            drag: function (e) {}
+        })
+
+        function clearStyle() {
+            sDoms.forEach(e => {
+                e.classList.remove('top')
+            })
+        }
+
+        function handleHtmlOuter() {
+            stories.forEach(e => {
+                let div = document.createElement('div')
+                div.classList.add('storyItem')
+
+                // let startStr = `<div class="storyItem"> <div class="storyTitle">${e.title}</div>`
+                // let endStr = `<div>`
+                let sentens = handleStr(e.content)
+                let inStr = handleHtmlInner(sentens)
+                div.innerHTML = `<div class="storyTitle">${e.title}</div>` + inStr
+                storyWrapper.appendChild(div)
+            });
+
+        }
+
+        function handleHtmlInner(sentens) {
+            let inStr = ''
+            sentens.forEach(ee => {
+                inStr += `<div class="storySentence">${ee}</div>`
+            })
+            return inStr
+        }
+
+        function handleStr(str) {
+            str = str.replace(/\n/g, '')
+            str = str.replace(' ', '')
+            let res = []
+            let arr = str.split('。')
+            arr.forEach(e => {
+                if (e !== '') {
+                    res.push(e)
+                }
+            })
+            return res
+        }
+
+        function swipe(el, options) {
+            //设置开关，监听move事件
+            var isMove = false;
+            // 设置手指触摸开始的坐标
+            var startX = 0;
+            var startY = 0;
+            // 设置手指移动的坐标
+            var moveX = 0;
+            var moveY = 0;
+            //设置指针距离元素的边框的距离
+            var disX = 0;
+            var disY = 0;
+            // 如果用户未传入参数2，自己定义一个
+            var data = {
+                swipeLeft: function () {},
+                swipeRight: function () {},
+                swipeDown: function () {},
+                swipeUp: function () {},
+                drag: function () {}
+            }
+            // 判断是否传入参数2，有的话覆盖默认值
+            Object.assign(data, options);
+            // 给元素绑定三个事件
+            el.addEventListener('touchstart', function (e) {
+                //获取手指开始的坐标
+                startX = e.touches[0].pageX;
+                startY = e.touches[0].pageY;
+                //计算指针距离元素边框的位置
+                disX = startX - el.offsetLeft;
+                disY = startY - el.offsetTop;
+            });
+            el.addEventListener('touchmove', function (e) {
+                //如果触发了move事件，打开开关
+                isMove = true;
+                // 获取移动时的坐标
+                moveX = e.touches[0].pageX;
+                moveY = e.touches[0].pageY;
+                e.mation = {
+                    startX: startX,
+                    startY: startY,
+                    moveX: moveX,
+                    moveY: moveY,
+                    disX: disX,
+                    disY: disY
+                }
+                data.drag.call(el, e);
+            });
+            el.addEventListener('touchend', function (e) {
+                // 判断是否触发了move事件
+                if (isMove) {
+                    // 计算水平边长
+                    var absX = Math.abs(moveX - startX);
+                    // 计算垂直边长
+                    var absY = Math.abs(moveY - startY);
+                    // 判断垂直还是水平滑动
+                    if (absX > absY) {
+                        // console.log('水平滑动');
+                        //再判断是左滑右滑
+                        if (moveX - startX > 0) {
+                            data.swipeRight.call(el, e);
+                        } else {
+                            data.swipeLeft.call(el, e);
+                        }
+                    } else {
+                        // console.log('垂直滑动');
+                        //判断是上滑还是下滑
+                        if (moveY - start > 0) {
+                            data.swipeDown.call(el, e);
+                        } else {
+                            data.swipeUp.call(el, e);
+                        }
+                    }
+                }
+                isMove = false;
+            });
+        }
+
+
+        ///////////////////////////////
+        
+    </script>
+</body>
+
+</html>

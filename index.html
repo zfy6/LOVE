@@ -48,20 +48,19 @@
             display: none;
         }
 
-        .go {
+        .sto {
             position: fixed;
-            top: 95%;
-            left: 95%;
-            color: rgba(255, 255, 255, 0.548);
-            text-decoration: none;
-            font-size: 12px;
-
+            top: 0%;
+            left: 0%;
+            width:20vw;
+            height:20vw;
         }
     </style>
 </HEAD>
 
 <BODY>
     <canvas id="sakura"></canvas>
+    <div class="sto">200</div>
     <div class="btnbg">
         我们已经相恋了 <span class="num">520</span> 天 <span class="num">520</span> 小时 <span class="num">520</span> 分 <span
             class="num">520</span> 秒
@@ -97,7 +96,7 @@
         let numDoms = document.querySelectorAll('.num')
         let btnbg = document.querySelector('.btnbg')
         let letter = document.querySelector('.letter')
-        let go = document.querySelector('.go')
+        let sto = document.querySelector('.sto')
         let timeObj = {}
         setInterval(() => {
             timeObj = computedTime()
@@ -111,7 +110,12 @@
         // btnbg.addEventListener("touch", showZiJu)
         // btnbg.addEventListener("dblclick", showZiJu)
         btnbg.addEventListener("click", showZiJu)
+        sto.addEventListener("click", goStory)
 
+
+        function goStory(){
+            location.href = './ourStory.html'
+        }
 
         function showZiJu() {
             let p1 = prompt('你是谁?')

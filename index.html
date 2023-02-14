@@ -52,15 +52,116 @@
             position: fixed;
             top: 0%;
             left: 0%;
-            width:20vw;
-            height:20vw;
+            width: 20vw;
+            height: 20vw;
+        }
+
+        .pics {
+            position: fixed;
+            top: 90%;
+            left: 0%;
+            width: 20vw;
+            height: 20vw;
+        }
+
+        .sct {
+            position: fixed;
+            letter-spacing: 4vw;
+            left: 18vw;
+            top: 35vh;
+            font-size: 8vw;
+            color: rgba(255, 194, 184, 1)
+        }
+
+        /* ------------ */
+        :root {
+            /* 字符数量 */
+            --steps: 12;
+            /* 动画时间 */
+            --duration: 2.5s;
+            /* 字体大小 */
+            --fontSize: 4vw;
+            /* 光标大小 */
+            --cursorSize: 4vw;
+        }
+
+        .text {
+
+            position: relative;
+            display: inline-block;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: var(--fontSize);
+            color: rgba(255, 194, 184, 1);
+            line-height: 1;
+        }
+
+        .text::after {
+            content: '';
+            width: var(--cursorSize);
+            height: var(--fontSize);
+            background-color: pink;
+            z-index: 2;
+            position: absolute;
+            animation: blink 1s var(--duration) step-end infinite,
+                moveCursor var(--duration) steps(var(--steps)) forwards;
+        }
+
+        .text::before {
+            content: '';
+            width: 100%;
+            height: var(--fontSize);
+            z-index: 1;
+            position: absolute;
+            background: linear-gradient(rgba(255, 194, 184, 1), rgba(255, 194, 184, 1)) no-repeat top right;
+            animation: showText var(--duration) steps(var(--steps)) forwards;
+        }
+
+        /* 光标闪烁动画 */
+        @keyframes blink {
+            0% {
+                background-color: pink;
+            }
+
+            50% {
+                background-color: transparent;
+            }
+
+            100% {
+                background-color: pink;
+            }
+        }
+
+        /* 光标移动动画 */
+        @keyframes moveCursor {
+            0% {
+                left: 0%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* 背景移动动画 */
+        @keyframes showText {
+            0% {
+                background-size: 100% 100%;
+            }
+
+            100% {
+                background-size: 0% 100%;
+            }
         }
     </style>
 </HEAD>
 
 <BODY>
     <canvas id="sakura"></canvas>
-    <div class="sto">200</div>
+    <div class='sct'>
+        <div class="text">雨宝情人节快乐!!!</div>
+    </div>
+    <div class="sto"></div>
+    <div class="pics">5555555</div>
     <div class="btnbg">
         我们已经相恋了 <span class="num">520</span> 天 <span class="num">520</span> 小时 <span class="num">520</span> 分 <span
             class="num">520</span> 秒
@@ -97,6 +198,8 @@
         let btnbg = document.querySelector('.btnbg')
         let letter = document.querySelector('.letter')
         let sto = document.querySelector('.sto')
+        let sct = document.querySelector('.sct')
+        let pics = document.querySelector('.pics')
         let timeObj = {}
         setInterval(() => {
             timeObj = computedTime()
@@ -106,15 +209,24 @@
             numDoms[3].innerText = timeObj.s
         }, 1000);
 
-
+        let mTime = new Date().getMonth()
+        if(mTime!==1){
+            sct.classList.add('hid')
+        }
         // btnbg.addEventListener("touch", showZiJu)
         // btnbg.addEventListener("dblclick", showZiJu)
         btnbg.addEventListener("click", showZiJu)
         sto.addEventListener("click", goStory)
+        pics.addEventListener("click", goPics)
 
 
-        function goStory(){
+        function goStory() {
             location.href = './ourStory.html'
+        }
+
+        function goPics() {
+            console.log(111);
+            location.href = './Valentine_day.html'
         }
 
         function showZiJu() {
